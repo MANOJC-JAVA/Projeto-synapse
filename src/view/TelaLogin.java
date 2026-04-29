@@ -34,7 +34,7 @@ public class TelaLogin extends JFrame {
             dispose();
         });
 
-        JButton btnCadastro = new JButton("Cadastrar-se");
+        JButton btnCadastro = new JButton("Cadastrar-se (Pesquisador)");
         btnCadastro.setBounds(150, 250, 200, 25);
         
         btnCadastro.addActionListener(e -> {
