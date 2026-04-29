@@ -3,6 +3,8 @@ package view;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Random;
+import controlador.Sistema;
+import modelo.Resultado;
 
 public class TelaTeste extends JFrame {
 
@@ -81,10 +83,13 @@ public class TelaTeste extends JFrame {
     }
 
     private void finalizar() {
-        long tempoTotal = System.currentTimeMillis() - tempoInicio;
+        long tempo = System.currentTimeMillis() - tempoInicio;
 
-        new TelaResultado(tempoTotal);
+        Sistema.listaResultados.add(
+            new Resultado(Sistema.nomeAtual, tempo)
+        );
 
+        new TelaResultado(tempo);
         dispose();
     }
 }

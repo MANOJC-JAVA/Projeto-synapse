@@ -1,27 +1,14 @@
 package modelo;
 
 public class Usuario {
-	private String nome;
-	private int idade;
-	
-	
-	public Usuario(String nome, int idade) {
-		this.nome = nome;
-		this.idade = idade;	
-	}
-	
-	public String getNome() {
-		return nome;
-	}
-	
-	public int getIdade() {
-		return idade;
-	}
-	
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-	public void setIdade(int idade) {
-		this.idade = idade;
-	}
+
+    private String nome;
+    private String email;
+    private String senha;
+
+    public Usuario(String nome, String email, String senha) {
+        this.nome = nome;
+        this.email = email;
+        this.senha = senha;
+    }
 }

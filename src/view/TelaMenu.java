@@ -32,6 +32,11 @@ public class TelaMenu extends JFrame {
         
         JButton btnResultado = new JButton("Exibir resultados");
         btnResultado.setBounds(10, 180, 180, 30);
+        
+        btnResultado.addActionListener(e -> {
+            new TelaExibirResultado();
+            dispose();
+        });
 
         lateral.add(btnCadastro);
         lateral.add(btnTeste);

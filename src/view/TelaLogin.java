@@ -36,6 +36,11 @@ public class TelaLogin extends JFrame {
 
         JButton btnCadastro = new JButton("Cadastrar-se");
         btnCadastro.setBounds(150, 250, 200, 25);
+        
+        btnCadastro.addActionListener(e -> {
+            new TelaCadastro();
+            dispose();
+        });
 
         painel.add(titulo);
         painel.add(txtUsuario);

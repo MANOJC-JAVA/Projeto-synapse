@@ -1,9 +1,9 @@
 package controlador;
 
 import java.util.ArrayList;
-import modelo.Usuario;
+import modelo.Resultado;
 
 public class Sistema {
-	public static ArrayList<Usuario> listaUsuarios = new ArrayList<>();
-
+    public static ArrayList<Resultado> listaResultados = new ArrayList<>();
+    public static String nomeAtual;
 }

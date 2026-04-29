@@ -6,39 +6,104 @@ import java.awt.*;
 public class TelaCadastro extends JFrame {
 
     public TelaCadastro() {
-        setTitle("Cadastro Pesquisador");
-        setSize(500, 500);
+        setTitle("Cadastro de Pesquisador");
+        setSize(500, 550);
         setLocationRelativeTo(null);
+        setLayout(null);
 
-        JPanel painel = new JPanel();
-        painel.setLayout(null);
-        painel.setBackground(new Color(200, 210, 230));
+        getContentPane().setBackground(new Color(200, 210, 230));
 
-        String[] labels = {
-            "Nome", "E-mail", "Instituição",
-            "Área de Atuação", "Registro Profissional",
-            "Senha", "Confirmar Senha"
-        };
+        JLabel titulo = new JLabel("Cadastro de Pesquisador");
+        titulo.setBounds(140, 20, 250, 30);
+        titulo.setFont(new Font("Arial", Font.BOLD, 16));
 
-        int y = 80;
+        // Campos
+        JTextField txtNome = new JTextField();
+        txtNome.setBounds(100, 80, 300, 25);
 
-        for (String texto : labels) {
-            JLabel lbl = new JLabel(texto);
-            lbl.setBounds(100, y, 200, 20);
-            JTextField txt = new JTextField();
-            txt.setBounds(100, y + 20, 300, 25);
+        JTextField txtEmail = new JTextField();
+        txtEmail.setBounds(100, 130, 300, 25);
 
-            painel.add(lbl);
-            painel.add(txt);
-            y += 50;
-        }
+        JTextField txtInstituicao = new JTextField();
+        txtInstituicao.setBounds(100, 180, 300, 25);
 
-        JButton btnSalvar = new JButton("Salvar");
-        btnSalvar.setBounds(180, y, 120, 30);
+        JTextField txtArea = new JTextField();
+        txtArea.setBounds(100, 230, 300, 25);
 
-        painel.add(btnSalvar);
+        JTextField txtRegistro = new JTextField();
+        txtRegistro.setBounds(100, 280, 300, 25);
 
-        add(painel);
+        JPasswordField txtSenha = new JPasswordField();
+        txtSenha.setBounds(100, 330, 300, 25);
+
+        JPasswordField txtConfirmar = new JPasswordField();
+        txtConfirmar.setBounds(100, 380, 300, 25);
+
+        // Labels
+        addLabel("Nome:", 100, 60);
+        addLabel("Email:", 100, 110);
+        addLabel("Instituição:", 100, 160);
+        addLabel("Área de atuação:", 100, 210);
+        addLabel("Registro profissional:", 100, 260);
+        addLabel("Senha:", 100, 310);
+        addLabel("Confirmar senha:", 100, 360);
+
+        // Botões
+        JButton btnCadastrar = new JButton("Cadastrar");
+        btnCadastrar.setBounds(120, 440, 120, 30);
+
+        JButton btnVoltar = new JButton("Voltar");
+        btnVoltar.setBounds(260, 440, 120, 30);
+
+        // AÇÃO CADASTRAR
+        btnCadastrar.addActionListener(e -> {
+
+            String nome = txtNome.getText();
+            String email = txtEmail.getText();
+            String senha = new String(txtSenha.getPassword());
+            String confirmar = new String(txtConfirmar.getPassword());
+
+            if (nome.isEmpty() || email.isEmpty() || senha.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Preencha todos os campos!");
+                return;
+            }
+
+            if (!senha.equals(confirmar)) {
+                JOptionPane.showMessageDialog(null, "As senhas não conferem!");
+                return;
+            }
+
+            JOptionPane.showMessageDialog(null, "Pesquisador cadastrado com sucesso!");
+
+            new TelaLogin(); // volta pro login
+            dispose();
+        });
+
+        // VOLTAR
+        btnVoltar.addActionListener(e -> {
+            new TelaLogin();
+            dispose();
+        });
+
+        // Adicionando componentes
+        add(titulo);
+        add(txtNome);
+        add(txtEmail);
+        add(txtInstituicao);
+        add(txtArea);
+        add(txtRegistro);
+        add(txtSenha);
+        add(txtConfirmar);
+        add(btnCadastrar);
+        add(btnVoltar);
+
         setVisible(true);
+    }
+
+    // método auxiliar pra labels
+    private void addLabel(String texto, int x, int y) {
+        JLabel lbl = new JLabel(texto);
+        lbl.setBounds(x, y, 200, 20);
+        add(lbl);
     }
 }

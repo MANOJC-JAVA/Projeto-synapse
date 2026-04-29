@@ -6,16 +6,16 @@ import java.awt.*;
 public class TelaCadastroParticipante extends JFrame {
 
     public TelaCadastroParticipante() {
-        setTitle("Cadastrar Participante");
+        setTitle("Cadastro de Participante");
         setSize(600, 400);
         setLocationRelativeTo(null);
+        setLayout(null);
 
-        JPanel painel = new JPanel();
-        painel.setLayout(null);
-        painel.setBackground(new Color(200, 210, 230));
+        getContentPane().setBackground(new Color(200, 210, 230));
 
         JLabel titulo = new JLabel("Cadastro de Participante");
         titulo.setBounds(200, 20, 200, 30);
+        titulo.setFont(new Font("Arial", Font.BOLD, 16));
 
         JLabel lblNome = new JLabel("Nome:");
         lblNome.setBounds(150, 80, 100, 20);
@@ -29,17 +29,44 @@ public class TelaCadastroParticipante extends JFrame {
         JTextField txtIdade = new JTextField();
         txtIdade.setBounds(150, 160, 300, 25);
 
-        JButton btnSalvar = new JButton("Salvar");
-        btnSalvar.setBounds(230, 220, 120, 30);
+        // BOTÃO CADASTRAR
+        JButton btnCadastrar = new JButton("Cadastrar");
+        btnCadastrar.setBounds(180, 230, 120, 30);
 
-        painel.add(titulo);
-        painel.add(lblNome);
-        painel.add(txtNome);
-        painel.add(lblIdade);
-        painel.add(txtIdade);
-        painel.add(btnSalvar);
+        // BOTÃO VOLTAR
+        JButton btnVoltar = new JButton("Voltar");
+        btnVoltar.setBounds(320, 230, 120, 30);
 
-        add(painel);
+        // AÇÃO DO CADASTRAR
+        btnCadastrar.addActionListener(e -> {
+            String nome = txtNome.getText();
+            String idade = txtIdade.getText();
+
+            if (nome.isEmpty() || idade.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Preencha todos os campos!");
+                return;
+            }
+
+            JOptionPane.showMessageDialog(null, "Participante cadastrado!");
+
+            new TelaInstrucoes(); // vai pra instruções
+            dispose();
+        });
+
+        //  VOLTAR
+        btnVoltar.addActionListener(e -> {
+            new TelaMenu();
+            dispose();
+        });
+
+        add(titulo);
+        add(lblNome);
+        add(txtNome);
+        add(lblIdade);
+        add(txtIdade);
+        add(btnCadastrar);
+        add(btnVoltar);
+
         setVisible(true);
     }
 }
