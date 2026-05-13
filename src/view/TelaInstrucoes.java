@@ -6,42 +6,59 @@ import java.awt.*;
 public class TelaInstrucoes extends JFrame {
 
     public TelaInstrucoes() {
-        setTitle("Instruções do Teste");
-        setSize(574, 404);
+
+        setTitle("Instruções");
+        setSize(600, 400);
         setLocationRelativeTo(null);
-        getContentPane().setLayout(null);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        getContentPane().setBackground(new Color(210, 220, 240));
+        setLayout(new BorderLayout());
 
-        JLabel titulo = new JLabel("Instruções", SwingConstants.CENTER);
-        titulo.setBounds(150, 20, 200, 30);
-        titulo.setFont(new Font("Arial", Font.BOLD, 18));
-
-        JTextArea texto = new JTextArea();
-        texto.setText(
-                "Você verá palavras com cores diferentes.\n\n" +
-                "Sua tarefa é clicar na COR do texto,\n" +
-                "não na palavra escrita.\n\n" +
-                "Exemplo:\nSe estiver escrito 'AZUL' em vermelho,\n" +
-                "clique no botão VERMELHO.\n\n" +
-                "Responda o mais rápido possível!"
+        //  TÍTULO
+        JLabel titulo = new JLabel(
+                "Instruções do Teste Cognitivo",
+                SwingConstants.CENTER
         );
 
-        texto.setBounds(80, 70, 334, 223);
+        titulo.setFont(new Font("Arial", Font.BOLD, 20));
+
+        add(titulo, BorderLayout.NORTH);
+
+        //  TEXTO
+        JTextArea texto = new JTextArea();
+
         texto.setEditable(false);
-        texto.setBackground(new Color(210, 220, 240));
 
-        JButton btnComecar = new JButton("Começar Teste");
-        btnComecar.setBounds(150, 324, 200, 30);
+        texto.setFont(new Font("Arial", Font.PLAIN, 16));
 
-        btnComecar.addActionListener(e -> {
+        texto.setText(
+                "Leia atentamente:\n\n"
+                + "- Uma palavra aparecerá na tela.\n"
+                + "- A palavra terá uma cor diferente.\n"
+                + "- Clique na COR da palavra.\n"
+                + "- Seja rápido.\n"
+                + "- O sistema calculará seu tempo.\n\n"
+                + "Clique em 'Iniciar Teste' para começar."
+        );
+
+        add(new JScrollPane(texto), BorderLayout.CENTER);
+
+        //  BOTÃO
+        JPanel painel = new JPanel();
+
+        JButton btnIniciar = new JButton("Iniciar Teste");
+
+        painel.add(btnIniciar);
+
+        add(painel, BorderLayout.SOUTH);
+
+        //  INICIAR
+        btnIniciar.addActionListener(e -> {
+
             new TelaTeste();
+
             dispose();
         });
-
-        getContentPane().add(titulo);
-        getContentPane().add(texto);
-        getContentPane().add(btnComecar);
 
         setVisible(true);
     }

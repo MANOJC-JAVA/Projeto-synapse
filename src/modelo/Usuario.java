@@ -1,6 +1,10 @@
 package modelo;
 
-public class Usuario {
+import java.io.Serializable;
+
+public class Usuario implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private String nome;
     private String email;
@@ -12,19 +16,15 @@ public class Usuario {
         this.senha = senha;
     }
 
-    // GETTERS
-    public String getNome() { return nome; }
-    public String getEmail() { return email; }
-    public String getSenha() { return senha; }
+    public String getNome() {
+        return nome;
+    }
 
-    // SETTERS (pra editar depois)
-    public void setNome(String nome) { this.nome = nome; }
-    public void setEmail(String email) { this.email = email; }
-    public void setSenha(String senha) { this.senha = senha; }
+    public String getEmail() {
+        return email;
+    }
 
-    // MOSTRAR BONITO EM LISTAS
-    @Override
-    public String toString() {
-        return nome + " (" + email + ")";
+    public String getSenha() {
+        return senha;
     }
 }

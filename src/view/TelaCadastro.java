@@ -11,7 +11,7 @@ public class TelaCadastro extends JFrame {
         setTitle("Cadastro de Pesquisador");
         setSize(500, 550);
         setLocationRelativeTo(null);
-        setLayout(null);
+        setLayout(new GridBagLayout());
 
         getContentPane().setBackground(new Color(200, 210, 230));
 
@@ -57,7 +57,7 @@ public class TelaCadastro extends JFrame {
         JButton btnVoltar = new JButton("Voltar");
         btnVoltar.setBounds(260, 440, 120, 30);
 
-        // AÇÃO CADASTRAR (CORRIGIDA)
+        // AÇÃO CADASTRAR
         btnCadastrar.addActionListener(e -> {
 
             String nome = txtNome.getText();

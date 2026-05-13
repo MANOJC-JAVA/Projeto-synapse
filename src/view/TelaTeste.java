@@ -3,116 +3,214 @@ package view;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Random;
+
 import controlador.Sistema;
 import modelo.Resultado;
 
 public class TelaTeste extends JFrame {
 
-    JLabel lblPalavra;
-    JButton btnVermelho, btnVerde, btnAzul;
+    private JLabel lblPalavra;
 
-    String[] palavras = {"VERMELHO", "VERDE", "AZUL"};
-    Color[] cores = {Color.RED, Color.GREEN, Color.BLUE};
+    private JButton btnVermelho;
+    private JButton btnVerde;
+    private JButton btnAzul;
 
-    int indiceCorCorreta;
-    int rodadas = 0;
-    int totalRodadas = 5;
-    long tempoInicio;
+    private String[] palavras = {
+            "VERMELHO",
+            "VERDE",
+            "AZUL"
+    };
+
+    private Color[] cores = {
+            Color.RED,
+            Color.GREEN,
+            Color.BLUE
+    };
+
+    private int rodadas = 0;
+
+    private int totalRodadas = 5;
+
+    private long tempoInicio;
 
     public TelaTeste() {
 
-        //  valida participante
-        if (Sistema.participanteAtual == null) {
-            JOptionPane.showMessageDialog(null, "Cadastre um participante primeiro!");
-            dispose();
-            return;
-        }
-
         setTitle("Teste Cognitivo");
+
         setSize(600, 400);
+
         setLocationRelativeTo(null);
 
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+
         JPanel painel = new JPanel();
+
         painel.setLayout(null);
-        painel.setBackground(new Color(210, 220, 240));
 
-        //  Nome do participante
-        JLabel lblNome = new JLabel("Participante: " + Sistema.participanteAtual.getNome());
-        lblNome.setBounds(20, 10, 300, 20);
+        painel.setBackground(
+                new Color(210, 220, 240)
+        );
 
-        lblPalavra = new JLabel("", SwingConstants.CENTER);
-        lblPalavra.setBounds(200, 80, 200, 50);
-        lblPalavra.setFont(new Font("Arial", Font.BOLD, 26));
+        //  TEXTO
+        lblPalavra = new JLabel(
+                "",
+                SwingConstants.CENTER
+        );
 
+        lblPalavra.setBounds(
+                200,
+                80,
+                200,
+                50
+        );
+
+        lblPalavra.setFont(
+                new Font(
+                        "Arial",
+                        Font.BOLD,
+                        26
+                )
+        );
+
+        //  BOTÕES
         btnVermelho = new JButton("VERMELHO");
+
         btnVerde = new JButton("VERDE");
+
         btnAzul = new JButton("AZUL");
 
-        btnVermelho.setBounds(120, 200, 120, 40);
-        btnVerde.setBounds(250, 200, 120, 40);
-        btnAzul.setBounds(380, 200, 120, 40);
+        btnVermelho.setBounds(
+                120,
+                200,
+                120,
+                40
+        );
 
-        painel.add(lblNome);
+        btnVerde.setBounds(
+                250,
+                200,
+                120,
+                40
+        );
+
+        btnAzul.setBounds(
+                380,
+                200,
+                120,
+                40
+        );
+
         painel.add(lblPalavra);
+
         painel.add(btnVermelho);
+
         painel.add(btnVerde);
+
         painel.add(btnAzul);
 
-        btnVermelho.addActionListener(e -> verificar(Color.RED));
-        btnVerde.addActionListener(e -> verificar(Color.GREEN));
-        btnAzul.addActionListener(e -> verificar(Color.BLUE));
+        //  AÇÕES
+        btnVermelho.addActionListener(
+                e -> verificar()
+        );
+
+        btnVerde.addActionListener(
+                e -> verificar()
+        );
+
+        btnAzul.addActionListener(
+                e -> verificar()
+        );
 
         add(painel);
+
         setVisible(true);
 
         iniciar();
     }
 
+    //  INICIAR
     private void iniciar() {
-        tempoInicio = System.currentTimeMillis();
+
+        tempoInicio =
+                System.currentTimeMillis();
+
         proximaRodada();
     }
 
+    //  RODADAS
     private void proximaRodada() {
 
         if (rodadas >= totalRodadas) {
+
             finalizar();
+
             return;
         }
 
         Random r = new Random();
 
-        int palavraIndex = r.nextInt(3);
-        int corIndex = r.nextInt(3);
+        int palavraIndex =
+                r.nextInt(3);
 
-        lblPalavra.setText(palavras[palavraIndex]);
-        lblPalavra.setForeground(cores[corIndex]);
+        int corIndex =
+                r.nextInt(3);
 
-        indiceCorCorreta = corIndex;
+        lblPalavra.setText(
+                palavras[palavraIndex]
+        );
+
+        lblPalavra.setForeground(
+                cores[corIndex]
+        );
+
         rodadas++;
     }
 
-    private void verificar(Color corSelecionada) {
-
-        //  verifica se acertou
-        if (corSelecionada == cores[indiceCorCorreta]) {
-            System.out.println("Acertou!");
-        } else {
-            System.out.println("Errou!");
-        }
+    //  VERIFICAR
+    private void verificar() {
 
         proximaRodada();
     }
 
+    // FINALIZAR
     private void finalizar() {
 
-        long tempo = System.currentTimeMillis() - tempoInicio;
+        long tempo =
+                System.currentTimeMillis()
+                        - tempoInicio;
 
-        Sistema.listaResultados.add(
-            new Resultado(Sistema.participanteAtual.getNome(), tempo)
+        if (Sistema.participanteAtual == null) {
+
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Nenhum participante encontrado!"
+            );
+
+            return;
+        }
+
+        //  CRIA RESULTADO
+        Resultado r =
+                new Resultado(
+                        Sistema.participanteAtual.getNome(),
+                        tempo
+                );
+
+        //  ADICIONA
+        Sistema.listaResultados.add(r);
+
+        //  DEBUG
+        System.out.println(
+                "RESULTADOS NA LISTA: "
+                + Sistema.listaResultados.size()
         );
 
+        //  SALVA
+        Sistema.salvarDados();
+
+        //  RESULTADO
         new TelaResultado(tempo);
+
         dispose();
     }
 }

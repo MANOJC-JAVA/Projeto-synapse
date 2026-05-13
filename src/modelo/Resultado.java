@@ -1,27 +1,25 @@
 package modelo;
 
-public class Resultado {
+import java.io.Serializable;
+
+public class Resultado implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private String nomeParticipante;
     private long tempo;
 
     public Resultado(String nomeParticipante, long tempo) {
+
         this.nomeParticipante = nomeParticipante;
         this.tempo = tempo;
     }
 
-    // GETTERS
-    public String getNomeParticipante() { return nomeParticipante; }
-    public long getTempo() { return tempo; }
-
-    // SETTER (pra editar)
-    public void setNomeParticipante(String nomeParticipante) {
-        this.nomeParticipante = nomeParticipante;
+    public String getNomeParticipante() {
+        return nomeParticipante;
     }
 
-    // FORMATAÇÃO BONITA
-    @Override
-    public String toString() {
-        return nomeParticipante + " - " + tempo + " ms";
+    public long getTempo() {
+        return tempo;
     }
 }

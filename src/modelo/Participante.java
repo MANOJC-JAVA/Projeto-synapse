@@ -1,6 +1,10 @@
 package modelo;
 
-public class Participante {
+import java.io.Serializable;
+
+public class Participante implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private String nome;
 
@@ -13,12 +17,12 @@ public class Participante {
         return nome;
     }
 
-    // SETTER (pra editar)
+    // SETTER
     public void setNome(String nome) {
         this.nome = nome;
     }
 
-    // EXIBIÇÃO EM LISTAS
+    // EXIBIÇÃO
     @Override
     public String toString() {
         return nome;

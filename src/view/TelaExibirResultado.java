@@ -2,56 +2,81 @@ package view;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Collections;
-import java.util.Comparator;
+
 import controlador.Sistema;
 import modelo.Resultado;
 
 public class TelaExibirResultado extends JFrame {
 
     public TelaExibirResultado() {
+
         setTitle("Resultados");
-        setSize(450, 350);
+        setSize(600, 400);
         setLocationRelativeTo(null);
-        setLayout(null);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
 
+        setLayout(new BorderLayout());
+
+        //  TÍTULO
+        JLabel titulo = new JLabel(
+                "Resultados dos Testes",
+                SwingConstants.CENTER
+        );
+
+        titulo.setFont(new Font("Arial", Font.BOLD, 20));
+        titulo.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+
+        add(titulo, BorderLayout.NORTH);
+
+        //  ÁREA DE TEXTO
         JTextArea area = new JTextArea();
-        area.setBounds(20, 20, 390, 220);
+
         area.setEditable(false);
-        area.setFont(new Font("Arial", Font.PLAIN, 14));
+        area.setFont(new Font("Arial", Font.PLAIN, 16));
 
-        JScrollPane scroll = new JScrollPane(area);
-        scroll.setBounds(20, 20, 390, 220);
-
-        JButton btnVoltar = new JButton("Voltar");
-        btnVoltar.setBounds(150, 260, 120, 30);
-
-        //  voltar pro menu
-        btnVoltar.addActionListener(e -> {
-            new TelaMenu();
-            dispose();
-        });
-
-        //  ordenar do menor tempo (melhor)
-        Collections.sort(Sistema.listaResultados, Comparator.comparingLong(Resultado::getTempo));
-
+        //  MOSTRAR RESULTADOS
         if (Sistema.listaResultados.isEmpty()) {
+
             area.append("Nenhum resultado registrado.");
+
         } else {
-            int pos = 1;
+
+            int posicao = 1;
 
             for (Resultado r : Sistema.listaResultados) {
+
                 area.append(
-                    pos + "º - " +
-                    r.getNomeParticipante() + " - " +
-                    r.getTempo() + " ms\n"
+                        posicao + "º Lugar - "
+                        + r.getNomeParticipante()
+                        + " | Tempo: "
+                        + r.getTempo()
+                        + " ms\n\n"
                 );
-                pos++;
+
+                posicao++;
             }
         }
 
-        add(scroll);
-        add(btnVoltar);
+        JScrollPane scroll = new JScrollPane(area);
+
+        add(scroll, BorderLayout.CENTER);
+
+        //  BOTÃO VOLTAR
+        JPanel painelBotao = new JPanel();
+
+        JButton btnVoltar = new JButton("Voltar");
+
+        painelBotao.add(btnVoltar);
+
+        add(painelBotao, BorderLayout.SOUTH);
+
+        //  VOLTAR
+        btnVoltar.addActionListener(e -> {
+
+            new TelaMenu();
+
+            dispose();
+        });
 
         setVisible(true);
     }

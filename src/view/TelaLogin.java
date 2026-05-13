@@ -7,41 +7,41 @@ import controlador.Sistema;
 public class TelaLogin extends JFrame {
 
     public TelaLogin() {
+
         setTitle("Synapse - Login");
         setSize(500, 400);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLayout(null);
 
         JPanel painel = new JPanel();
         painel.setLayout(null);
         painel.setBackground(new Color(180, 200, 230));
-        painel.setBounds(0, 0, 500, 400);
 
+        //  TÍTULO
         JLabel titulo = new JLabel("SYNAPSE - Plataforma de Avaliação Cognitiva");
-        titulo.setBounds(50, 30, 400, 30);
+        titulo.setBounds(40, 30, 420, 30);
+        titulo.setFont(new Font("Arial", Font.BOLD, 14));
 
+        //  EMAIL
         JLabel lblUsuario = new JLabel("Email:");
-        lblUsuario.setBounds(150, 80, 100, 20);
+        lblUsuario.setBounds(150, 80, 200, 20);
 
         JTextField txtUsuario = new JTextField();
         txtUsuario.setBounds(150, 100, 200, 30);
 
+        //  SENHA
         JLabel lblSenha = new JLabel("Senha:");
-        lblSenha.setBounds(150, 130, 100, 20);
+        lblSenha.setBounds(150, 140, 200, 20);
 
         JPasswordField txtSenha = new JPasswordField();
-        txtSenha.setBounds(150, 150, 200, 30);
+        txtSenha.setBounds(150, 160, 200, 30);
 
+        //  BOTÃO ENTRAR
         JButton btnEntrar = new JButton("Entrar");
-        btnEntrar.setBounds(180, 200, 120, 30);
+        btnEntrar.setBounds(180, 210, 120, 30);
 
-        JButton btnCadastro = new JButton("Cadastrar-se (Pesquisador)");
-        btnCadastro.setBounds(150, 250, 200, 25);
-
-        //  LOGIN
+        //  LOGIN FUNCIONANDO
         btnEntrar.addActionListener(e -> {
-
             String email = txtUsuario.getText();
             String senha = new String(txtSenha.getPassword());
 
@@ -53,12 +53,16 @@ public class TelaLogin extends JFrame {
             }
         });
 
-        //  IR PARA CADASTRO
+        //  BOTÃO CADASTRO
+        JButton btnCadastro = new JButton("Cadastrar-se");
+        btnCadastro.setBounds(150, 260, 200, 25);
+
         btnCadastro.addActionListener(e -> {
             new TelaCadastro();
             dispose();
         });
 
+        //  ADICIONAR COMPONENTES
         painel.add(titulo);
         painel.add(lblUsuario);
         painel.add(txtUsuario);
@@ -71,7 +75,12 @@ public class TelaLogin extends JFrame {
         setVisible(true);
     }
 
+    //  MAIN 
     public static void main(String[] args) {
+
+        Sistema.carregarDados();
+
         new TelaLogin();
     }
+    
 }
