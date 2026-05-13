@@ -2,6 +2,8 @@ package view;
 
 import javax.swing.*;
 import java.awt.*;
+import controlador.Sistema;
+import modelo.Usuario;
 
 public class TelaCadastro extends JFrame {
 
@@ -17,7 +19,7 @@ public class TelaCadastro extends JFrame {
         titulo.setBounds(140, 20, 250, 30);
         titulo.setFont(new Font("Arial", Font.BOLD, 16));
 
-        // Campos
+        // CAMPOS
         JTextField txtNome = new JTextField();
         txtNome.setBounds(100, 80, 300, 25);
 
@@ -39,7 +41,7 @@ public class TelaCadastro extends JFrame {
         JPasswordField txtConfirmar = new JPasswordField();
         txtConfirmar.setBounds(100, 380, 300, 25);
 
-        // Labels
+        // LABELS
         addLabel("Nome:", 100, 60);
         addLabel("Email:", 100, 110);
         addLabel("Instituição:", 100, 160);
@@ -48,14 +50,14 @@ public class TelaCadastro extends JFrame {
         addLabel("Senha:", 100, 310);
         addLabel("Confirmar senha:", 100, 360);
 
-        // Botões
+        // BOTÕES
         JButton btnCadastrar = new JButton("Cadastrar");
         btnCadastrar.setBounds(120, 440, 120, 30);
 
         JButton btnVoltar = new JButton("Voltar");
         btnVoltar.setBounds(260, 440, 120, 30);
 
-        // AÇÃO CADASTRAR
+        // AÇÃO CADASTRAR (CORRIGIDA)
         btnCadastrar.addActionListener(e -> {
 
             String nome = txtNome.getText();
@@ -63,6 +65,7 @@ public class TelaCadastro extends JFrame {
             String senha = new String(txtSenha.getPassword());
             String confirmar = new String(txtConfirmar.getPassword());
 
+            // validação
             if (nome.isEmpty() || email.isEmpty() || senha.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Preencha todos os campos!");
                 return;
@@ -73,19 +76,27 @@ public class TelaCadastro extends JFrame {
                 return;
             }
 
-            JOptionPane.showMessageDialog(null, "Pesquisador cadastrado com sucesso!");
+            //  cria usuário
+            Usuario novo = new Usuario(nome, email, senha);
 
-            new TelaLogin(); // volta pro login
-            dispose();
+            //  salva no sistema
+            if (Sistema.cadastrarUsuario(novo)) {
+                JOptionPane.showMessageDialog(null, "Pesquisador cadastrado com sucesso!");
+
+                new TelaLogin();
+                dispose();
+            } else {
+                JOptionPane.showMessageDialog(null, "Email já cadastrado!");
+            }
         });
 
-        // VOLTAR
+        //  VOLTAR
         btnVoltar.addActionListener(e -> {
             new TelaLogin();
             dispose();
         });
 
-        // Adicionando componentes
+        // ADICIONA COMPONENTES
         add(titulo);
         add(txtNome);
         add(txtEmail);
@@ -100,7 +111,7 @@ public class TelaCadastro extends JFrame {
         setVisible(true);
     }
 
-    // método auxiliar pra labels
+    // MÉTODO AUXILIAR
     private void addLabel(String texto, int x, int y) {
         JLabel lbl = new JLabel(texto);
         lbl.setBounds(x, y, 200, 20);

@@ -20,6 +20,14 @@ public class TelaTeste extends JFrame {
     long tempoInicio;
 
     public TelaTeste() {
+
+        //  valida participante
+        if (Sistema.participanteAtual == null) {
+            JOptionPane.showMessageDialog(null, "Cadastre um participante primeiro!");
+            dispose();
+            return;
+        }
+
         setTitle("Teste Cognitivo");
         setSize(600, 400);
         setLocationRelativeTo(null);
@@ -27,6 +35,10 @@ public class TelaTeste extends JFrame {
         JPanel painel = new JPanel();
         painel.setLayout(null);
         painel.setBackground(new Color(210, 220, 240));
+
+        //  Nome do participante
+        JLabel lblNome = new JLabel("Participante: " + Sistema.participanteAtual.getNome());
+        lblNome.setBounds(20, 10, 300, 20);
 
         lblPalavra = new JLabel("", SwingConstants.CENTER);
         lblPalavra.setBounds(200, 80, 200, 50);
@@ -40,6 +52,7 @@ public class TelaTeste extends JFrame {
         btnVerde.setBounds(250, 200, 120, 40);
         btnAzul.setBounds(380, 200, 120, 40);
 
+        painel.add(lblNome);
         painel.add(lblPalavra);
         painel.add(btnVermelho);
         painel.add(btnVerde);
@@ -61,6 +74,7 @@ public class TelaTeste extends JFrame {
     }
 
     private void proximaRodada() {
+
         if (rodadas >= totalRodadas) {
             finalizar();
             return;
@@ -78,15 +92,24 @@ public class TelaTeste extends JFrame {
         rodadas++;
     }
 
-    private void verificar(Color cor) {
+    private void verificar(Color corSelecionada) {
+
+        //  verifica se acertou
+        if (corSelecionada == cores[indiceCorCorreta]) {
+            System.out.println("Acertou!");
+        } else {
+            System.out.println("Errou!");
+        }
+
         proximaRodada();
     }
 
     private void finalizar() {
+
         long tempo = System.currentTimeMillis() - tempoInicio;
 
         Sistema.listaResultados.add(
-            new Resultado(Sistema.nomeAtual, tempo)
+            new Resultado(Sistema.participanteAtual.getNome(), tempo)
         );
 
         new TelaResultado(tempo);

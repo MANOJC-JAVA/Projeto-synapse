@@ -10,11 +10,18 @@ public class Resultado {
         this.tempo = tempo;
     }
 
-    public String getNomeParticipante() {
-        return nomeParticipante;
+    // GETTERS
+    public String getNomeParticipante() { return nomeParticipante; }
+    public long getTempo() { return tempo; }
+
+    // SETTER (pra editar)
+    public void setNomeParticipante(String nomeParticipante) {
+        this.nomeParticipante = nomeParticipante;
     }
 
-    public long getTempo() {
-        return tempo;
+    // FORMATAÇÃO BONITA
+    @Override
+    public String toString() {
+        return nomeParticipante + " - " + tempo + " ms";
     }
 }
