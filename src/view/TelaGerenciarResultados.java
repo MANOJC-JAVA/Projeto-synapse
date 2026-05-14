@@ -8,181 +8,201 @@ import modelo.Resultado;
 
 public class TelaGerenciarResultados extends JFrame {
 
-    private DefaultListModel<String> modeloLista;
-    private JList<String> listaResultados;
+	private JList<String> lista;
 
-    public TelaGerenciarResultados() {
+	private DefaultListModel<String> modeloLista;
 
-        setTitle("Gerenciar Resultados");
-        setSize(600, 400);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+	public TelaGerenciarResultados() {
 
-        setLayout(new BorderLayout());
+		setTitle("Gerenciar Resultados");
 
-        //  TOPO
-        JLabel titulo = new JLabel(
-                "Gerenciamento de Resultados",
-                SwingConstants.CENTER
-        );
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 
-        titulo.setFont(new Font("Arial", Font.BOLD, 20));
-        titulo.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        add(titulo, BorderLayout.NORTH);
+		setLayout(null);
 
-        //  LISTA
-        modeloLista = new DefaultListModel<>();
+		// painel principal
+		JPanel painel = new JPanel();
 
-        atualizarLista();
+		painel.setLayout(null);
 
-        listaResultados = new JList<>(modeloLista);
-        listaResultados.setFont(new Font("Arial", Font.PLAIN, 16));
+		painel.setBounds(0, 0, 1920, 1080);
 
-        JScrollPane scroll = new JScrollPane(listaResultados);
+		painel.setBackground(new Color(210, 220, 240));
 
-        add(scroll, BorderLayout.CENTER);
+		// título
+		JLabel titulo = new JLabel("Gerenciamento de Resultados");
 
-        //  BOTÕES
-        JPanel painelBotoes = new JPanel();
+		titulo.setBounds(620, 40, 700, 50);
 
-        JButton btnEditar = new JButton("Editar");
-        JButton btnExcluir = new JButton("Excluir");
-        JButton btnVoltar = new JButton("Voltar");
+		titulo.setFont(new Font("Arial", Font.BOLD, 34));
 
-        painelBotoes.add(btnEditar);
-        painelBotoes.add(btnExcluir);
-        painelBotoes.add(btnVoltar);
+		// subtítulo
+		JLabel subtitulo = new JLabel("Editar ou remover avaliações realizadas");
 
-        add(painelBotoes, BorderLayout.SOUTH);
+		subtitulo.setBounds(630, 95, 500, 30);
 
-        //  EDITAR
-        btnEditar.addActionListener(e -> {
+		subtitulo.setFont(new Font("Arial", Font.PLAIN, 18));
 
-            int index = listaResultados.getSelectedIndex();
+		// lista
+		modeloLista = new DefaultListModel<>();
 
-            if (index == -1) {
-                JOptionPane.showMessageDialog(
-                        null,
-                        "Selecione um resultado!"
-                );
-                return;
-            }
+		carregarResultados();
 
-            Resultado resultadoAtual =
-                    Sistema.listaResultados.get(index);
+		lista = new JList<>(modeloLista);
 
-            String novoNome = JOptionPane.showInputDialog(
-                    "Novo nome:",
-                    resultadoAtual.getNomeParticipante()
-            );
+		lista.setFont(new Font("Arial", Font.PLAIN, 22));
 
-            if (novoNome == null || novoNome.isEmpty()) {
-                return;
-            }
+		lista.setBackground(Color.WHITE);
 
-            String novoTempoTexto = JOptionPane.showInputDialog(
-                    "Novo tempo:",
-                    resultadoAtual.getTempo()
-            );
+		lista.setSelectionBackground(new Color(120, 150, 200));
 
-            if (novoTempoTexto == null || novoTempoTexto.isEmpty()) {
-                return;
-            }
+		lista.setSelectionForeground(Color.WHITE);
 
-            try {
+		JScrollPane scroll = new JScrollPane(lista);
 
-                long novoTempo = Long.parseLong(novoTempoTexto);
+		scroll.setBounds(350, 170, 1200, 550);
 
-                Resultado novoResultado =
-                        new Resultado(novoNome, novoTempo);
+		// painel informações
+		JPanel painelInfo = new JPanel();
 
-                Sistema.listaResultados.set(index, novoResultado);
-                Sistema.salvarDados();
+		painelInfo.setLayout(null);
 
-                atualizarLista();
+		painelInfo.setBounds(350, 760, 1200, 120);
 
-                JOptionPane.showMessageDialog(
-                        null,
-                        "Resultado editado!"
-                );
+		painelInfo.setBackground(new Color(190, 205, 230));
 
-            } catch (Exception erro) {
+		painelInfo.setBorder(BorderFactory.createLineBorder(new Color(120, 150, 200), 2));
 
-                JOptionPane.showMessageDialog(
-                        null,
-                        "Digite um tempo válido!"
-                );
-            }
-        });
+		JLabel info = new JLabel("Selecione um resultado para editar ou excluir.");
 
-        //  EXCLUIR
-        btnExcluir.addActionListener(e -> {
+		info.setBounds(30, 35, 700, 40);
 
-            int index = listaResultados.getSelectedIndex();
+		info.setFont(new Font("Arial", Font.BOLD, 22));
 
-            if (index == -1) {
+		painelInfo.add(info);
 
-                JOptionPane.showMessageDialog(
-                        null,
-                        "Selecione um resultado!"
-                );
+		// botão editar
+		JButton btnEditar = new JButton("Editar");
 
-                return;
-            }
+		btnEditar.setBounds(560, 920, 180, 50);
 
-            int resposta = JOptionPane.showConfirmDialog(
-                    null,
-                    "Deseja excluir esse resultado?",
-                    "Confirmação",
-                    JOptionPane.YES_NO_OPTION
-            );
+		btnEditar.setFont(new Font("Arial", Font.BOLD, 18));
 
-            if (resposta == JOptionPane.YES_OPTION) {
+		// botão excluir
+		JButton btnExcluir = new JButton("Excluir");
 
-                Sistema.listaResultados.remove(index);
-                Sistema.salvarDados();
+		btnExcluir.setBounds(850, 920, 180, 50);
 
-                atualizarLista();
+		btnExcluir.setFont(new Font("Arial", Font.BOLD, 18));
 
-                JOptionPane.showMessageDialog(
-                        null,
-                        "Resultado removido!"
-                );
-            }
-        });
+		// botão voltar
+		JButton btnVoltar = new JButton("Voltar");
 
-        //  VOLTAR
-        btnVoltar.addActionListener(e -> {
+		btnVoltar.setBounds(1140, 920, 180, 50);
 
-            new TelaMenu();
+		btnVoltar.setFont(new Font("Arial", Font.BOLD, 18));
 
-            dispose();
-        });
+		// editar resultado
+		btnEditar.addActionListener(e -> {
 
-        setVisible(true);
-    }
+			int index = lista.getSelectedIndex();
 
-    //  ATUALIZA LISTA
-    private void atualizarLista() {
+			if (index == -1) {
 
-        modeloLista.clear();
+				JOptionPane.showMessageDialog(null, "Selecione um resultado!");
 
-        if (Sistema.listaResultados.isEmpty()) {
+				return;
+			}
 
-            modeloLista.addElement("Nenhum resultado encontrado.");
+			Resultado r = Sistema.listaResultados.get(index);
 
-            return;
-        }
+			String novoTempo = JOptionPane.showInputDialog(null, "Novo tempo:", r.getTempo());
 
-        for (Resultado r : Sistema.listaResultados) {
+			try {
 
-            modeloLista.addElement(
-                    r.getNomeParticipante()
-                    + " - "
-                    + r.getTempo()
-                    + " ms"
-            );
-        }
-    }
+				long tempo = Long.parseLong(novoTempo);
+
+				Resultado novo = new Resultado(r.getNomeParticipante(), tempo);
+
+				Sistema.listaResultados.set(index, novo);
+
+				Sistema.salvarDados();
+
+				carregarResultados();
+
+				JOptionPane.showMessageDialog(null, "Resultado atualizado!");
+
+			} catch (Exception ex) {
+
+				JOptionPane.showMessageDialog(null, "Valor inválido!");
+			}
+		});
+
+		// excluir resultado
+		btnExcluir.addActionListener(e -> {
+
+			int index = lista.getSelectedIndex();
+
+			if (index == -1) {
+
+				JOptionPane.showMessageDialog(null, "Selecione um resultado!");
+
+				return;
+			}
+
+			int confirmar = JOptionPane.showConfirmDialog(null, "Deseja excluir esse resultado?");
+
+			if (confirmar == 0) {
+
+				Sistema.listaResultados.remove(index);
+
+				Sistema.salvarDados();
+
+				carregarResultados();
+
+				JOptionPane.showMessageDialog(null, "Resultado removido!");
+			}
+		});
+
+		// voltar
+		btnVoltar.addActionListener(e -> {
+
+			new TelaMenu();
+
+			dispose();
+		});
+
+		// adiciona componentes
+		painel.add(titulo);
+
+		painel.add(subtitulo);
+
+		painel.add(scroll);
+
+		painel.add(painelInfo);
+
+		painel.add(btnEditar);
+
+		painel.add(btnExcluir);
+
+		painel.add(btnVoltar);
+
+		add(painel);
+
+		setVisible(true);
+	}
+
+	// carrega resultados na lista
+	private void carregarResultados() {
+
+		modeloLista.clear();
+
+		for (Resultado r : Sistema.listaResultados) {
+
+			modeloLista
+					.addElement("Participante: " + r.getNomeParticipante() + "   |   Tempo: " + r.getTempo() + " ms");
+		}
+	}
 }

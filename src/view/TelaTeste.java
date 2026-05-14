@@ -9,208 +9,219 @@ import modelo.Resultado;
 
 public class TelaTeste extends JFrame {
 
-    private JLabel lblPalavra;
+	private JLabel lblTitulo;
+	private JLabel lblPalavra;
+	private JLabel lblRodada;
 
-    private JButton btnVermelho;
-    private JButton btnVerde;
-    private JButton btnAzul;
+	private JButton btnVermelho;
+	private JButton btnVerde;
+	private JButton btnAzul;
+	private JButton btnAmarelo;
+	private JButton btnRoxo;
+	private JButton btnLaranja;
 
-    private String[] palavras = {
-            "VERMELHO",
-            "VERDE",
-            "AZUL"
-    };
+	private String[] palavras = { "VERMELHO", "VERDE", "AZUL", "AMARELO", "ROXO", "LARANJA" };
 
-    private Color[] cores = {
-            Color.RED,
-            Color.GREEN,
-            Color.BLUE
-    };
+	private Color[] cores = { Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, new Color(128, 0, 128), Color.ORANGE };
 
-    private int rodadas = 0;
+	private int indiceCorCorreta;
 
-    private int totalRodadas = 5;
+	private int rodadas = 0;
 
-    private long tempoInicio;
+	private int totalRodadas = 15;
 
-    public TelaTeste() {
+	private long tempoInicio;
 
-        setTitle("Teste Cognitivo");
+	public TelaTeste() {
 
-        setSize(600, 400);
+		setTitle("Teste Cognitivo");
 
-        setLocationRelativeTo(null);
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        JPanel painel = new JPanel();
+		setLayout(null);
 
-        painel.setLayout(null);
+		JPanel painel = new JPanel();
 
-        painel.setBackground(
-                new Color(210, 220, 240)
-        );
+		painel.setLayout(null);
 
-        //  TEXTO
-        lblPalavra = new JLabel(
-                "",
-                SwingConstants.CENTER
-        );
+		painel.setBounds(0, 0, 1920, 1080);
 
-        lblPalavra.setBounds(
-                200,
-                80,
-                200,
-                50
-        );
+		painel.setBackground(new Color(210, 220, 240));
 
-        lblPalavra.setFont(
-                new Font(
-                        "Arial",
-                        Font.BOLD,
-                        26
-                )
-        );
+		// título
+		lblTitulo = new JLabel("Teste Cognitivo de Cores");
 
-        //  BOTÕES
-        btnVermelho = new JButton("VERMELHO");
+		lblTitulo.setBounds(650, 60, 700, 50);
 
-        btnVerde = new JButton("VERDE");
+		lblTitulo.setFont(new Font("Arial", Font.BOLD, 34));
 
-        btnAzul = new JButton("AZUL");
+		// rodada atual
+		lblRodada = new JLabel();
 
-        btnVermelho.setBounds(
-                120,
-                200,
-                120,
-                40
-        );
+		lblRodada.setBounds(840, 140, 300, 40);
 
-        btnVerde.setBounds(
-                250,
-                200,
-                120,
-                40
-        );
+		lblRodada.setFont(new Font("Arial", Font.BOLD, 22));
 
-        btnAzul.setBounds(
-                380,
-                200,
-                120,
-                40
-        );
+		// palavra principal
+		lblPalavra = new JLabel("", SwingConstants.CENTER);
 
-        painel.add(lblPalavra);
+		lblPalavra.setBounds(500, 260, 900, 120);
 
-        painel.add(btnVermelho);
+		lblPalavra.setFont(new Font("Arial", Font.BOLD, 64));
 
-        painel.add(btnVerde);
+		// botão vermelho
+		btnVermelho = new JButton("VERMELHO");
 
-        painel.add(btnAzul);
+		btnVermelho.setBounds(400, 520, 250, 70);
 
-        //  AÇÕES
-        btnVermelho.addActionListener(
-                e -> verificar()
-        );
+		btnVermelho.setFont(new Font("Arial", Font.BOLD, 18));
 
-        btnVerde.addActionListener(
-                e -> verificar()
-        );
+		// botão verde
+		btnVerde = new JButton("VERDE");
 
-        btnAzul.addActionListener(
-                e -> verificar()
-        );
+		btnVerde.setBounds(830, 520, 250, 70);
 
-        add(painel);
+		btnVerde.setFont(new Font("Arial", Font.BOLD, 18));
 
-        setVisible(true);
+		// botão azul
+		btnAzul = new JButton("AZUL");
 
-        iniciar();
-    }
+		btnAzul.setBounds(1260, 520, 250, 70);
 
-    //  INICIAR
-    private void iniciar() {
+		btnAzul.setFont(new Font("Arial", Font.BOLD, 18));
 
-        tempoInicio =
-                System.currentTimeMillis();
+		// botão amarelo
+		btnAmarelo = new JButton("AMARELO");
 
-        proximaRodada();
-    }
+		btnAmarelo.setBounds(400, 670, 250, 70);
 
-    //  RODADAS
-    private void proximaRodada() {
+		btnAmarelo.setFont(new Font("Arial", Font.BOLD, 18));
 
-        if (rodadas >= totalRodadas) {
+		// botão roxo
+		btnRoxo = new JButton("ROXO");
 
-            finalizar();
+		btnRoxo.setBounds(830, 670, 250, 70);
 
-            return;
-        }
+		btnRoxo.setFont(new Font("Arial", Font.BOLD, 18));
 
-        Random r = new Random();
+		// botão laranja
+		btnLaranja = new JButton("LARANJA");
 
-        int palavraIndex =
-                r.nextInt(3);
+		btnLaranja.setBounds(1260, 670, 250, 70);
 
-        int corIndex =
-                r.nextInt(3);
+		btnLaranja.setFont(new Font("Arial", Font.BOLD, 18));
 
-        lblPalavra.setText(
-                palavras[palavraIndex]
-        );
+		// ações dos botões
+		btnVermelho.addActionListener(e -> verificar(Color.RED));
 
-        lblPalavra.setForeground(
-                cores[corIndex]
-        );
+		btnVerde.addActionListener(e -> verificar(Color.GREEN));
 
-        rodadas++;
-    }
+		btnAzul.addActionListener(e -> verificar(Color.BLUE));
 
-    //  VERIFICAR
-    private void verificar() {
+		btnAmarelo.addActionListener(e -> verificar(Color.YELLOW));
 
-        proximaRodada();
-    }
+		btnRoxo.addActionListener(e -> verificar(new Color(128, 0, 128)));
 
-    // FINALIZAR
-    private void finalizar() {
+		btnLaranja.addActionListener(e -> verificar(Color.ORANGE));
 
-        long tempo =
-                System.currentTimeMillis()
-                        - tempoInicio;
+		// adiciona componentes
+		painel.add(lblTitulo);
 
-        if (Sistema.participanteAtual == null) {
+		painel.add(lblRodada);
 
-            JOptionPane.showMessageDialog(
-                    null,
-                    "Nenhum participante encontrado!"
-            );
+		painel.add(lblPalavra);
 
-            return;
-        }
+		painel.add(btnVermelho);
 
-        //  CRIA RESULTADO
-        Resultado r =
-                new Resultado(
-                        Sistema.participanteAtual.getNome(),
-                        tempo
-                );
+		painel.add(btnVerde);
 
-        //  ADICIONA
-        Sistema.listaResultados.add(r);
+		painel.add(btnAzul);
 
-        //  DEBUG
-        System.out.println(
-                "RESULTADOS NA LISTA: "
-                + Sistema.listaResultados.size()
-        );
+		painel.add(btnAmarelo);
 
-        //  SALVA
-        Sistema.salvarDados();
+		painel.add(btnRoxo);
 
-        //  RESULTADO
-        new TelaResultado(tempo);
+		painel.add(btnLaranja);
 
-        dispose();
-    }
+		add(painel);
+
+		setVisible(true);
+
+		iniciar();
+	}
+
+	// inicia o teste
+	private void iniciar() {
+
+		tempoInicio = System.currentTimeMillis();
+
+		proximaRodada();
+	}
+
+	// gera próxima rodada
+	private void proximaRodada() {
+
+		if (rodadas >= totalRodadas) {
+
+			finalizar();
+
+			return;
+		}
+
+		Random r = new Random();
+
+		int palavraIndex = r.nextInt(palavras.length);
+
+		int corIndex = r.nextInt(cores.length);
+
+		lblPalavra.setText(palavras[palavraIndex]);
+
+		lblPalavra.setForeground(cores[corIndex]);
+
+		indiceCorCorreta = corIndex;
+
+		rodadas++;
+
+		lblRodada.setText("Rodada " + rodadas + " de " + totalRodadas);
+	}
+
+	// verifica resposta
+	private void verificar(Color corSelecionada) {
+
+		if (corSelecionada.equals(cores[indiceCorCorreta])) {
+
+			proximaRodada();
+
+		} else {
+
+			JOptionPane.showMessageDialog(null, "Cor incorreta!");
+
+			proximaRodada();
+		}
+	}
+
+	// finaliza o teste
+	private void finalizar() {
+
+		long tempo = System.currentTimeMillis() - tempoInicio;
+
+		if (Sistema.participanteAtual == null) {
+
+			JOptionPane.showMessageDialog(null, "Nenhum participante encontrado!");
+
+			return;
+		}
+
+		Resultado r = new Resultado(Sistema.participanteAtual.getNome(), tempo);
+
+		Sistema.listaResultados.add(r);
+
+		Sistema.salvarDados();
+
+		new TelaResultado(tempo);
+
+		dispose();
+	}
 }

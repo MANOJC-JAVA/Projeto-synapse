@@ -8,96 +8,132 @@ import modelo.Participante;
 
 public class TelaCadastroParticipante extends JFrame {
 
-    public TelaCadastroParticipante() {
+	public TelaCadastroParticipante() {
 
-        setTitle("Cadastro de Participante");
-        setSize(600, 400);
-        setLocationRelativeTo(null);
-        setLayout(null);
+		setTitle("Cadastro de Participante");
 
-        getContentPane().setBackground(new Color(200, 210, 230));
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 
-        //  TÍTULO
-        JLabel titulo = new JLabel("Cadastro de Participante");
-        titulo.setBounds(200, 20, 250, 30);
-        titulo.setFont(new Font("Arial", Font.BOLD, 16));
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        //  NOME
-        JLabel lblNome = new JLabel("Nome:");
-        lblNome.setBounds(150, 80, 100, 20);
+		setLayout(null);
 
-        JTextField txtNome = new JTextField();
-        txtNome.setBounds(150, 100, 300, 25);
+		// painel principal
+		JPanel painel = new JPanel();
 
-        //  IDADE
-        JLabel lblIdade = new JLabel("Idade:");
-        lblIdade.setBounds(150, 140, 100, 20);
+		painel.setLayout(null);
 
-        JTextField txtIdade = new JTextField();
-        txtIdade.setBounds(150, 160, 300, 25);
+		painel.setBounds(0, 0, 1920, 1080);
 
-        //  BOTÃO CADASTRAR
-        JButton btnCadastrar = new JButton("Cadastrar");
-        btnCadastrar.setBounds(180, 230, 120, 30);
+		painel.setBackground(new Color(200, 210, 230));
 
-        //  BOTÃO VOLTAR
-        JButton btnVoltar = new JButton("Voltar");
-        btnVoltar.setBounds(320, 230, 120, 30);
+		// título
+		JLabel titulo = new JLabel("Cadastro de Participante");
 
-        //  AÇÃO CADASTRAR
-        btnCadastrar.addActionListener(e -> {
+		titulo.setBounds(700, 100, 500, 50);
 
-            String nome = txtNome.getText();
-            String idade = txtIdade.getText();
+		titulo.setFont(new Font("Arial", Font.BOLD, 32));
 
-            //  VALIDAÇÃO
-            if (nome.isEmpty() || idade.isEmpty()) {
+		// label nome
+		JLabel lblNome = new JLabel("Nome:");
 
-                JOptionPane.showMessageDialog(
-                        null,
-                        "Preencha todos os campos!"
-                );
+		lblNome.setBounds(620, 240, 200, 30);
 
-                return;
-            }
+		lblNome.setFont(new Font("Arial", Font.BOLD, 20));
 
-            //  CRIA PARTICIPANTE
-            Participante p = new Participante(nome);
+		// campo nome
+		JTextField txtNome = new JTextField();
 
-            // SALVA NO SISTEMA
-            Sistema.participantes.add(p);
-            Sistema.salvarDados();
+		txtNome.setBounds(620, 280, 600, 45);
 
-            Sistema.participanteAtual = p;
+		txtNome.setFont(new Font("Arial", Font.PLAIN, 18));
 
-            JOptionPane.showMessageDialog(
-                    null,
-                    "Participante cadastrado!"
-            );
+		// label idade
+		JLabel lblIdade = new JLabel("Idade:");
 
-            //  VAI PARA INSTRUÇÕES
-            new TelaInstrucoes();
+		lblIdade.setBounds(620, 380, 200, 30);
 
-            dispose();
-        });
+		lblIdade.setFont(new Font("Arial", Font.BOLD, 20));
 
-        //  VOLTAR
-        btnVoltar.addActionListener(e -> {
+		// campo idade
+		JTextField txtIdade = new JTextField();
 
-            new TelaMenu();
+		txtIdade.setBounds(620, 420, 600, 45);
 
-            dispose();
-        });
+		txtIdade.setFont(new Font("Arial", Font.PLAIN, 18));
 
-        //  ADD COMPONENTES
-        add(titulo);
-        add(lblNome);
-        add(txtNome);
-        add(lblIdade);
-        add(txtIdade);
-        add(btnCadastrar);
-        add(btnVoltar);
+		// botão cadastrar
+		JButton btnCadastrar = new JButton("Cadastrar");
 
-        setVisible(true);
-    }
+		btnCadastrar.setBounds(680, 560, 200, 50);
+
+		btnCadastrar.setFont(new Font("Arial", Font.BOLD, 18));
+
+		// botão voltar
+		JButton btnVoltar = new JButton("Voltar");
+
+		btnVoltar.setBounds(960, 560, 200, 50);
+
+		btnVoltar.setFont(new Font("Arial", Font.BOLD, 18));
+
+		// ação cadastrar
+		btnCadastrar.addActionListener(e -> {
+
+			String nome = txtNome.getText();
+
+			String idade = txtIdade.getText();
+
+			// verifica campos vazios
+			if (nome.isEmpty() || idade.isEmpty()) {
+
+				JOptionPane.showMessageDialog(null, "Preencha todos os campos!");
+
+				return;
+			}
+
+			// cria participante
+			Participante p = new Participante(nome);
+
+			// salva participante
+			Sistema.participantes.add(p);
+
+			Sistema.participanteAtual = p;
+
+			Sistema.salvarDados();
+
+			JOptionPane.showMessageDialog(null, "Participante cadastrado!");
+
+			// abre instruções
+			new TelaInstrucoes();
+
+			dispose();
+		});
+
+		// ação voltar
+		btnVoltar.addActionListener(e -> {
+
+			new TelaMenu();
+
+			dispose();
+		});
+
+		// adiciona componentes
+		painel.add(titulo);
+
+		painel.add(lblNome);
+
+		painel.add(txtNome);
+
+		painel.add(lblIdade);
+
+		painel.add(txtIdade);
+
+		painel.add(btnCadastrar);
+
+		painel.add(btnVoltar);
+
+		add(painel);
+
+		setVisible(true);
+	}
 }

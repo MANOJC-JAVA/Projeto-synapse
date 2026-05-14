@@ -2,119 +2,185 @@ package view;
 
 import javax.swing.*;
 import java.awt.*;
+
 import controlador.Sistema;
 import modelo.Usuario;
 
 public class TelaCadastro extends JFrame {
 
-    public TelaCadastro() {
-        setTitle("Cadastro de Pesquisador");
-        setSize(500, 550);
-        setLocationRelativeTo(null);
-        setLayout(new GridBagLayout());
+	public TelaCadastro() {
 
-        getContentPane().setBackground(new Color(200, 210, 230));
+		setTitle("Cadastro de Pesquisador");
 
-        JLabel titulo = new JLabel("Cadastro de Pesquisador");
-        titulo.setBounds(140, 20, 250, 30);
-        titulo.setFont(new Font("Arial", Font.BOLD, 16));
+		// TELA CHEIA
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 
-        // CAMPOS
-        JTextField txtNome = new JTextField();
-        txtNome.setBounds(100, 80, 300, 25);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        JTextField txtEmail = new JTextField();
-        txtEmail.setBounds(100, 130, 300, 25);
+		// LAYOUT MANUAL
+		setLayout(null);
 
-        JTextField txtInstituicao = new JTextField();
-        txtInstituicao.setBounds(100, 180, 300, 25);
+		// PAINEL PRINCIPAL
+		JPanel painel = new JPanel();
 
-        JTextField txtArea = new JTextField();
-        txtArea.setBounds(100, 230, 300, 25);
+		painel.setLayout(null);
 
-        JTextField txtRegistro = new JTextField();
-        txtRegistro.setBounds(100, 280, 300, 25);
+		painel.setBounds(0, 0, 1920, 1080);
 
-        JPasswordField txtSenha = new JPasswordField();
-        txtSenha.setBounds(100, 330, 300, 25);
+		painel.setBackground(new Color(200, 210, 230));
 
-        JPasswordField txtConfirmar = new JPasswordField();
-        txtConfirmar.setBounds(100, 380, 300, 25);
+		// TÍTULO
+		JLabel titulo = new JLabel("Cadastro de Pesquisador");
 
-        // LABELS
-        addLabel("Nome:", 100, 60);
-        addLabel("Email:", 100, 110);
-        addLabel("Instituição:", 100, 160);
-        addLabel("Área de atuação:", 100, 210);
-        addLabel("Registro profissional:", 100, 260);
-        addLabel("Senha:", 100, 310);
-        addLabel("Confirmar senha:", 100, 360);
+		titulo.setBounds(760, 80, 400, 40);
 
-        // BOTÕES
-        JButton btnCadastrar = new JButton("Cadastrar");
-        btnCadastrar.setBounds(120, 440, 120, 30);
+		titulo.setFont(new Font("Arial", Font.BOLD, 28));
 
-        JButton btnVoltar = new JButton("Voltar");
-        btnVoltar.setBounds(260, 440, 120, 30);
+		// CAMPOS
 
-        // AÇÃO CADASTRAR
-        btnCadastrar.addActionListener(e -> {
+		JTextField txtNome = new JTextField();
 
-            String nome = txtNome.getText();
-            String email = txtEmail.getText();
-            String senha = new String(txtSenha.getPassword());
-            String confirmar = new String(txtConfirmar.getPassword());
+		txtNome.setBounds(650, 180, 500, 40);
 
-            // validação
-            if (nome.isEmpty() || email.isEmpty() || senha.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Preencha todos os campos!");
-                return;
-            }
+		JTextField txtEmail = new JTextField();
 
-            if (!senha.equals(confirmar)) {
-                JOptionPane.showMessageDialog(null, "As senhas não conferem!");
-                return;
-            }
+		txtEmail.setBounds(650, 270, 500, 40);
 
-            //  cria usuário
-            Usuario novo = new Usuario(nome, email, senha);
+		JTextField txtInstituicao = new JTextField();
 
-            //  salva no sistema
-            if (Sistema.cadastrarUsuario(novo)) {
-                JOptionPane.showMessageDialog(null, "Pesquisador cadastrado com sucesso!");
+		txtInstituicao.setBounds(650, 360, 500, 40);
 
-                new TelaLogin();
-                dispose();
-            } else {
-                JOptionPane.showMessageDialog(null, "Email já cadastrado!");
-            }
-        });
+		JTextField txtArea = new JTextField();
 
-        //  VOLTAR
-        btnVoltar.addActionListener(e -> {
-            new TelaLogin();
-            dispose();
-        });
+		txtArea.setBounds(650, 450, 500, 40);
 
-        // ADICIONA COMPONENTES
-        add(titulo);
-        add(txtNome);
-        add(txtEmail);
-        add(txtInstituicao);
-        add(txtArea);
-        add(txtRegistro);
-        add(txtSenha);
-        add(txtConfirmar);
-        add(btnCadastrar);
-        add(btnVoltar);
+		JTextField txtRegistro = new JTextField();
 
-        setVisible(true);
-    }
+		txtRegistro.setBounds(650, 540, 500, 40);
 
-    // MÉTODO AUXILIAR
-    private void addLabel(String texto, int x, int y) {
-        JLabel lbl = new JLabel(texto);
-        lbl.setBounds(x, y, 200, 20);
-        add(lbl);
-    }
+		JPasswordField txtSenha = new JPasswordField();
+
+		txtSenha.setBounds(650, 630, 500, 40);
+
+		JPasswordField txtConfirmar = new JPasswordField();
+
+		txtConfirmar.setBounds(650, 720, 500, 40);
+
+		// LABELS
+		addLabel(painel, "Nome:", 650, 150);
+
+		addLabel(painel, "Email:", 650, 240);
+
+		addLabel(painel, "Instituição:", 650, 330);
+
+		addLabel(painel, "Área de atuação:", 650, 420);
+
+		addLabel(painel, "Registro profissional:", 650, 510);
+
+		addLabel(painel, "Senha:", 650, 600);
+
+		addLabel(painel, "Confirmar senha:", 650, 690);
+
+		// BOTÕES
+
+		JButton btnCadastrar = new JButton("Cadastrar");
+
+		btnCadastrar.setBounds(700, 820, 170, 45);
+
+		JButton btnVoltar = new JButton("Voltar");
+
+		btnVoltar.setBounds(930, 820, 170, 45);
+
+		// CADASTRAR
+		btnCadastrar.addActionListener(e -> {
+
+			String nome = txtNome.getText();
+
+			String email = txtEmail.getText();
+
+			String senha = new String(txtSenha.getPassword());
+
+			String confirmar = new String(txtConfirmar.getPassword());
+
+			// VALIDAÇÃO
+			if (nome.isEmpty() || email.isEmpty() || senha.isEmpty()) {
+
+				JOptionPane.showMessageDialog(null, "Preencha todos os campos!");
+
+				return;
+			}
+
+			// CONFIRMAR SENHA
+			if (!senha.equals(confirmar)) {
+
+				JOptionPane.showMessageDialog(null, "As senhas não conferem!");
+
+				return;
+			}
+
+			// CADASTRAR
+			Usuario u = new Usuario(nome, email, senha);
+
+			boolean sucesso = Sistema.cadastrarUsuario(u);
+
+			if (sucesso) {
+
+				JOptionPane.showMessageDialog(null, "Pesquisador cadastrado!");
+
+				new TelaLogin();
+
+				dispose();
+
+			} else {
+
+				JOptionPane.showMessageDialog(null, "Email já cadastrado!");
+			}
+		});
+
+		// VOLTAR
+		btnVoltar.addActionListener(e -> {
+
+			new TelaLogin();
+
+			dispose();
+		});
+
+		// ADD COMPONENTES
+
+		painel.add(titulo);
+
+		painel.add(txtNome);
+
+		painel.add(txtEmail);
+
+		painel.add(txtInstituicao);
+
+		painel.add(txtArea);
+
+		painel.add(txtRegistro);
+
+		painel.add(txtSenha);
+
+		painel.add(txtConfirmar);
+
+		painel.add(btnCadastrar);
+
+		painel.add(btnVoltar);
+
+		add(painel);
+
+		setVisible(true);
+	}
+
+	// LABELS
+	private void addLabel(JPanel painel, String texto, int x, int y) {
+
+		JLabel lbl = new JLabel(texto);
+
+		lbl.setBounds(x, y, 300, 30);
+
+		lbl.setFont(new Font("Arial", Font.BOLD, 18));
+
+		painel.add(lbl);
+	}
 }

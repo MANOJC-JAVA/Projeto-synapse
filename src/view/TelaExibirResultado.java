@@ -2,82 +2,132 @@ package view;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import controlador.Sistema;
 import modelo.Resultado;
 
 public class TelaExibirResultado extends JFrame {
 
-    public TelaExibirResultado() {
+	public TelaExibirResultado() {
 
-        setTitle("Resultados");
-        setSize(600, 400);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setTitle("Resultados");
 
-        setLayout(new BorderLayout());
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 
-        //  TÍTULO
-        JLabel titulo = new JLabel(
-                "Resultados dos Testes",
-                SwingConstants.CENTER
-        );
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        titulo.setFont(new Font("Arial", Font.BOLD, 20));
-        titulo.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+		setLayout(null);
 
-        add(titulo, BorderLayout.NORTH);
+		// painel principal
+		JPanel painel = new JPanel();
 
-        //  ÁREA DE TEXTO
-        JTextArea area = new JTextArea();
+		painel.setLayout(null);
 
-        area.setEditable(false);
-        area.setFont(new Font("Arial", Font.PLAIN, 16));
+		painel.setBounds(0, 0, 1920, 1080);
 
-        //  MOSTRAR RESULTADOS
-        if (Sistema.listaResultados.isEmpty()) {
+		painel.setBackground(new Color(210, 220, 240));
 
-            area.append("Nenhum resultado registrado.");
+		// título
+		JLabel titulo = new JLabel("Resultados dos Testes");
 
-        } else {
+		titulo.setBounds(650, 40, 700, 50);
 
-            int posicao = 1;
+		titulo.setFont(new Font("Arial", Font.BOLD, 34));
 
-            for (Resultado r : Sistema.listaResultados) {
+		// subtítulo
+		JLabel subtitulo = new JLabel("Ranking dos melhores tempos");
 
-                area.append(
-                        posicao + "º Lugar - "
-                        + r.getNomeParticipante()
-                        + " | Tempo: "
-                        + r.getTempo()
-                        + " ms\n\n"
-                );
+		subtitulo.setBounds(700, 95, 400, 30);
 
-                posicao++;
-            }
-        }
+		subtitulo.setFont(new Font("Arial", Font.PLAIN, 20));
 
-        JScrollPane scroll = new JScrollPane(area);
+		// área dos resultados
+		JTextArea area = new JTextArea();
 
-        add(scroll, BorderLayout.CENTER);
+		area.setEditable(false);
 
-        //  BOTÃO VOLTAR
-        JPanel painelBotao = new JPanel();
+		area.setFont(new Font("Arial", Font.PLAIN, 24));
 
-        JButton btnVoltar = new JButton("Voltar");
+		area.setBackground(Color.WHITE);
 
-        painelBotao.add(btnVoltar);
+		area.setMargin(new Insets(20, 20, 20, 20));
 
-        add(painelBotao, BorderLayout.SOUTH);
+		// ordena ranking
+		ArrayList<Resultado> ranking = new ArrayList<>(Sistema.listaResultados);
 
-        //  VOLTAR
-        btnVoltar.addActionListener(e -> {
+		Collections.sort(ranking, Comparator.comparingLong(Resultado::getTempo));
 
-            new TelaMenu();
+		// exibe resultados
+		if (ranking.isEmpty()) {
 
-            dispose();
-        });
+			area.append("Nenhum resultado registrado.");
 
-        setVisible(true);
-    }
+		} else {
+
+			int posicao = 1;
+
+			for (Resultado r : ranking) {
+
+				area.append(posicao + "º Lugar" + "\n\n" + "Participante: " + r.getNomeParticipante() + "\n" + "Tempo: "
+						+ r.getTempo() + " ms" + "\n" + "-------------------------------------" + "\n\n");
+
+				posicao++;
+			}
+		}
+
+		JScrollPane scroll = new JScrollPane(area);
+
+		scroll.setBounds(350, 170, 1200, 600);
+
+		// painel de informações
+		JPanel painelInfo = new JPanel();
+
+		painelInfo.setLayout(null);
+
+		painelInfo.setBounds(350, 800, 1200, 100);
+
+		painelInfo.setBackground(new Color(190, 205, 230));
+
+		painelInfo.setBorder(BorderFactory.createLineBorder(new Color(120, 150, 200), 2));
+
+		JLabel info = new JLabel("Os resultados são organizados automaticamente pelo menor tempo.");
+
+		info.setBounds(30, 30, 900, 30);
+
+		info.setFont(new Font("Arial", Font.BOLD, 20));
+
+		painelInfo.add(info);
+
+		// botão voltar
+		JButton btnVoltar = new JButton("Voltar");
+
+		btnVoltar.setBounds(820, 940, 250, 50);
+
+		btnVoltar.setFont(new Font("Arial", Font.BOLD, 18));
+
+		btnVoltar.addActionListener(e -> {
+
+			new TelaMenu();
+
+			dispose();
+		});
+
+		// adiciona componentes
+		painel.add(titulo);
+
+		painel.add(subtitulo);
+
+		painel.add(scroll);
+
+		painel.add(painelInfo);
+
+		painel.add(btnVoltar);
+
+		add(painel);
+
+		setVisible(true);
+	}
 }
